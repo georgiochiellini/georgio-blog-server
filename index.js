@@ -13,7 +13,7 @@ const app = express()
 
 app.set('trust proxy', true)
 
-app.use(cors({origin: 'https://watchmachine-promoting.onrender.com'}))
+app.use(cors({origin: ['https://watchmachine-promoting.onrender.com']}))
 app.use(express.json({}))
 app.use(Fingerprint())
 app.use('/api', router)
