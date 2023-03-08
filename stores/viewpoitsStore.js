@@ -38,6 +38,13 @@ class ViewpointsStore {
         return obj
     }
 
+    showInfo() {
+        const date = new Date()
+        const userCount = this._names.length
+        const time = ` ${date.getHours}:${date.getMinutes} `
+        console.log(time + userCount)
+    }
+
     getMinutesWatch(nickname) {
         const user = this._userData[nickname]
         if (!user) return 0
@@ -242,6 +249,7 @@ class ViewpointsStore {
             return
         }
         await this.#setUserVideos()
+        this.showInfo()
 
         this.#makeProbNames()
         this.#addVideos()
