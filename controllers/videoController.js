@@ -119,12 +119,13 @@ class VideoController {
     }
 
     async test(req, res, next) {
-        const info = await youtubeApi.fetchPlaylistItems('fjksdhfkjsk')
         // const views = viewpoitsStore.setVideoViews(['NWsXF64LEq0', 'oUh9YdpMQpo'])
         // console.log();
         // const data = await youtubeApi.test()
         // console.log(getDuration('PT4M'))
-        return res.status(200).json(info)
+        const origin = req.header('Origin')
+        console.log(origin);
+        return res.status(200).send(origin)
 
     }
 }

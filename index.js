@@ -5,18 +5,19 @@ const router = require('./routes/index')
 const cors = require('cors')
 const PORT = process.env.PORT || 5000
 const http = require('http')
-const path = require('path')
 const Fingerprint = require('express-fingerprint')
+const useragent = require('express-useragent')
 const viewpoitsStore = require('./stores/viewpoitsStore')
+const url = require('./utils/url')
+const requestMiddleware = require('./middlewares/requestMiddleware')
 
 const app = express()
 
-app.set('trust proxy', true)
-
-app.use(cors({origin: 'https://watchmachine-promoting.onrender.com'}))
+app.use(cors({origin: url.URL}))
 app.use(express.json({}))
 app.use(Fingerprint())
-app.use('/api', router)
+app.use(useragent.express())
+app.use('/api', requestMiddleware, router)
 
 const server = http.createServer(app)
 
