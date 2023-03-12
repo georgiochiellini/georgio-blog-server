@@ -18,10 +18,9 @@ const statuses = {
 }
 
 const calcStatus = (count) => {
-    if (count <= 10) return {status: 'pro', level: 3}
-    else if (count <= 100) return {status: 'pro', level: 2}
-    else if (count <= 1000) return {status: 'pro', level: 1}
-    else if (count <= 5000) return {status: 'pro', level: 0}
+    if (count <= 10) return {status: 'pro', level: 2}
+    else if (count <= 100) return {status: 'pro', level: 1}
+    else if (count <= 1000) return {status: 'pro', level: 0}
     else return {status: 'basic', level: 0}
 }
 
