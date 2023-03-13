@@ -38,6 +38,13 @@ async function processPlaylist(videoId, playlistId) {
     return {error: false, duration: getDuration(info.contentDetails.duration), prevVideoId}
 }
 
+function mobileCheck(req) {
+    const allowedOs = ['windows', 'linux', 'kali', 'macos', 'mac']
+    const os = req.useragent.os.toLowerCase().split(' ')[0]
+    const isAllowedDevice = req.useragent.isDesktop && !req.useragent.isMobile && allowedOs.includes(os)
+    return !isAllowedDevice
+}
+
 class VideoController {
 
     async uploadVideo(req, res, next) {
@@ -75,6 +82,7 @@ class VideoController {
     async watched(req, res, next) {
         const {time} = req.body
         const user = req.user
+        if (mobileCheck(req)) return res.status(403).json({message: 'Sessions is unavailable for mobile'})
         if (!viewpoitsStore.isActive()) return res.status(200).json({active: false})
         if (!viewpoitsStore.checkUser(user.username)) await addUser(user)
         viewpoitsStore.watchVideo(time, user.username)
@@ -83,6 +91,7 @@ class VideoController {
 
     async getWatch(req, res, next) {
         const user = req.user
+        if (mobileCheck(req)) return res.status(403).json({message: 'Sessions is unavailable for mobile'})
         if (!viewpoitsStore.isActive()) return res.status(200).json({next: {url: '', duration: 10}})
         const hash = req.fingerprint.hash
         if (!viewpoitsStore.checkHash(hash)) return res.status(400).json({message: 'Not allowed'})
